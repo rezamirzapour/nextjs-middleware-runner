@@ -1,0 +1,67 @@
+{
+  "name": "@rezamirzapour/nextjs-middleware-runner",
+  "version": "1.0.0",
+  "description": "A flexible and powerful middleware runner for Next.js with priority support, pattern matching, and error handling",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepublishOnly": "npm run build",
+    "release": "npm run build && npm publish"
+  },
+  "keywords": [
+    "nextjs",
+    "middleware",
+    "next",
+    "middleware-runner",
+    "authentication",
+    "authorization",
+    "rate-limiting",
+    "cors",
+    "typescript"
+  ],
+  "author": "Reza Mirzapour <mirzaandrampage@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rezamirzapour/nextjs-middleware-runner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rezamirzapour/nextjs-middleware-runner/issues"
+  },
+  "homepage": "https://github.com/rezamirzapour/nextjs-middleware-runner#readme",
+  "peerDependencies": {
+    "next": ">=13.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.19.26",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^30.2.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.4.6",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}
