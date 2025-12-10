@@ -24,21 +24,41 @@ pnpm add @remirzapour/nextjs-middleware-runner
 
 ## 🚀 Quick Start
 
-```typescript
-// middleware.ts or proxy.ts
-import { MiddlewareRunner, createMiddleware } from '@remirzapour/nextjs-middleware-runner';
-import type { NextRequest } from 'next/server';
+### Project Structure
+```
+your-project/
+├── middleware/
+│   ├── authMiddleware.ts
+│   └── loggingMiddleware.ts
+│   └── index.ts
+├── middleware.ts
+└── ...
+```
 
-// Create your middlewares
-const loggingMiddleware = createMiddleware(
+### 1. Create middleware files
+
+**`middleware/loggingMiddleware.ts`:**
+```typescript
+import { createMiddleware } from '@remirzapour/nextjs-middleware-runner';
+
+export const loggingMiddleware = createMiddleware(
   async ({ request, response }) => {
     console.log(`${request.method} ${request.nextUrl.pathname}`);
     return { shouldContinue: true, response };
   },
-  { name: 'logger', priority: 100 }
+  { 
+    name: 'logger', 
+    priority: 1 
+  }
 );
+```
 
-const authMiddleware = createMiddleware(
+**`middleware/authMiddleware.ts`:**
+```typescript
+import { createMiddleware } from '@remirzapour/nextjs-middleware-runner';
+import { NextResponse } from 'next/server';
+
+export const authMiddleware = createMiddleware(
   async ({ request, response }) => {
     const token = request.cookies.get('auth-token');
     
@@ -54,12 +74,43 @@ const authMiddleware = createMiddleware(
   {
     name: 'auth',
     matcher: ['/dashboard/*', '/api/protected/*'],
-    priority: 90,
+    priority: 2,
   }
 );
+```
 
-// Setup runner
+### 2. Create main middleware file
+
+**`middleware.ts`:**
+```typescript
+import { MiddlewareRunner } from '@remirzapour/nextjs-middleware-runner';
+import type { NextRequest } from 'next/server';
+import { loggingMiddleware, authMiddleware } from './middleware';
+
+// Setup runner with imported middlewares
 const runner = new MiddlewareRunner(loggingMiddleware, authMiddleware)
+  .setDebugMode(process.env.NODE_ENV === 'development');
+
+export async function middleware(request: NextRequest) {
+  return runner.run(request);
+}
+
+export const config = {
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+};
+```
+
+### 3. Alternative: Add more middlewares dynamically
+
+```typescript
+import { MiddlewareRunner } from '@remirzapour/nextjs-middleware-runner';
+import type { NextRequest } from 'next/server';
+import { loggingMiddleware, authMiddleware } from './middleware/loggingMiddleware';
+
+// Create runner instance
+const runner = new MiddlewareRunner()
+  .addMiddleware(loggingMiddleware)
+  .addMiddleware(authMiddleware)
   .setDebugMode(process.env.NODE_ENV === 'development');
 
 export async function middleware(request: NextRequest) {
@@ -131,5 +182,3 @@ MIT © [Reza Mirzapour]
 - [GitHub Repository](https://github.com/remirzapour/nextjs-middleware-runner)
 - [NPM Package](https://www.npmjs.com/package/@remirzapour/nextjs-middleware-runner)
 - [Documentation](https://github.com/remirzapour/nextjs-middleware-runner/wiki)
-
----
