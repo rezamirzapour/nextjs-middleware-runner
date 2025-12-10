@@ -15,11 +15,11 @@ A flexible and powerful middleware runner for Next.js with priority support, adv
 ## 📦 Installation
 
 ```bash
-npm install @remirzapour/nextjs-middleware-runner
+npm install @rezamirzapour/nextjs-middleware-runner
 # or
-yarn add @remirzapour/nextjs-middleware-runner
+yarn add @rezamirzapour/nextjs-middleware-runner
 # or
-pnpm add @remirzapour/nextjs-middleware-runner
+pnpm add @rezamirzapour/nextjs-middleware-runner
 ```
 
 ## 🚀 Quick Start
@@ -39,7 +39,7 @@ your-project/
 
 **`middlewares/loggingMiddleware.ts`:**
 ```typescript
-import { createMiddleware } from '@remirzapour/nextjs-middleware-runner';
+import { createMiddleware } from '@rezamirzapour/nextjs-middleware-runner';
 
 export const loggingMiddleware = createMiddleware(
   async ({ request, response }) => {
@@ -55,7 +55,7 @@ export const loggingMiddleware = createMiddleware(
 
 **`middlewares/authMiddleware.ts`:**
 ```typescript
-import { createMiddleware } from '@remirzapour/nextjs-middleware-runner';
+import { createMiddleware } from '@rezamirzapour/nextjs-middleware-runner';
 import { NextResponse } from 'next/server';
 
 export const authMiddleware = createMiddleware(
@@ -83,7 +83,7 @@ export const authMiddleware = createMiddleware(
 
 **`middleware.ts`:**
 ```typescript
-import { MiddlewareRunner } from '@remirzapour/nextjs-middleware-runner';
+import { MiddlewareRunner } from '@rezamirzapour/nextjs-middleware-runner';
 import type { NextRequest } from 'next/server';
 import { loggingMiddleware, authMiddleware } from './middlewares';
 
@@ -103,7 +103,7 @@ export const config = {
 ### 3. Alternative: Add more middlewares dynamically
 
 ```typescript
-import { MiddlewareRunner } from '@remirzapour/nextjs-middleware-runner';
+import { MiddlewareRunner } from '@rezamirzapour/nextjs-middleware-runner';
 import type { NextRequest } from 'next/server';
 import { loggingMiddleware, authMiddleware } from './middlewares/loggingMiddleware';
 
@@ -183,6 +183,6 @@ MIT © [Reza Mirzapour]
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/remirzapour/nextjs-middleware-runner)
-- [NPM Package](https://www.npmjs.com/package/@remirzapour/nextjs-middleware-runner)
-- [Documentation](https://github.com/remirzapour/nextjs-middleware-runner/wiki)
+- [GitHub Repository](https://github.com/rezamirzapour/nextjs-middleware-runner)
+- [NPM Package](https://www.npmjs.com/package/@rezamirzapour/nextjs-middleware-runner)
+- [Documentation](https://github.com/rezamirzapour/nextjs-middleware-runner/wiki)
