@@ -27,7 +27,7 @@ pnpm add @remirzapour/nextjs-middleware-runner
 ### Project Structure
 ```
 your-project/
-├── middleware/
+├── middlewares/
 │   ├── authMiddleware.ts
 │   └── loggingMiddleware.ts
 │   └── index.ts
@@ -37,7 +37,7 @@ your-project/
 
 ### 1. Create middleware files
 
-**`middleware/loggingMiddleware.ts`:**
+**`middlewares/loggingMiddleware.ts`:**
 ```typescript
 import { createMiddleware } from '@remirzapour/nextjs-middleware-runner';
 
@@ -53,7 +53,7 @@ export const loggingMiddleware = createMiddleware(
 );
 ```
 
-**`middleware/authMiddleware.ts`:**
+**`middlewares/authMiddleware.ts`:**
 ```typescript
 import { createMiddleware } from '@remirzapour/nextjs-middleware-runner';
 import { NextResponse } from 'next/server';
@@ -85,7 +85,7 @@ export const authMiddleware = createMiddleware(
 ```typescript
 import { MiddlewareRunner } from '@remirzapour/nextjs-middleware-runner';
 import type { NextRequest } from 'next/server';
-import { loggingMiddleware, authMiddleware } from './middleware';
+import { loggingMiddleware, authMiddleware } from './middlewares';
 
 // Setup runner with imported middlewares
 const runner = new MiddlewareRunner(loggingMiddleware, authMiddleware)
@@ -105,13 +105,17 @@ export const config = {
 ```typescript
 import { MiddlewareRunner } from '@remirzapour/nextjs-middleware-runner';
 import type { NextRequest } from 'next/server';
-import { loggingMiddleware, authMiddleware } from './middleware/loggingMiddleware';
+import { loggingMiddleware, authMiddleware } from './middlewares/loggingMiddleware';
 
 // Create runner instance
 const runner = new MiddlewareRunner()
-  .addMiddleware(loggingMiddleware)
-  .addMiddleware(authMiddleware)
-  .setDebugMode(process.env.NODE_ENV === 'development');
+  .addMiddleware(authMiddleware);
+
+if(process.env.NODE_ENV === 'development') {
+  runner.addMiddleware(loggingMiddleware)
+}
+
+runner.setDebugMode(process.env.NODE_ENV === 'development');
 
 export async function middleware(request: NextRequest) {
   return runner.run(request);
